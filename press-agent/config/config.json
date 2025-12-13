@@ -1,0 +1,12 @@
+{
+  "auto_post":  false,
+  "milestones": {
+    "contracts_ready": {
+      "completed": true,
+      "date":  "2025-12-13"
+    },
+    "deployment_complete": {
+      "completed": false
+    }
+  }
+}

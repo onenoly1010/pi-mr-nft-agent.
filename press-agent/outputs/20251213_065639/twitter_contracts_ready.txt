@@ -1,0 +1,12 @@
+OINIO Smart Contracts:  MAINNET-READY
+
+ModelRoyaltyNFT.sol - 10-30% royalties
+CatalystPool.sol - 12M Pi, 90-day taper
+Compiled, audited, ready to deploy
+Deployer: 0xd41691b6... 
+
+Awaiting Pi Network Open Mainnet RPC
+
+github.com/onenoly1010/pi-mr-nft-contracts
+
+#PiNetwork #OINIO #MRNFT
