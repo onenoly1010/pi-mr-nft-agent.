@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "pi-mr-nft-agent"
+version = "1.0.0"
+description = "Sovereign Pi MR-NFT inference agent with catalyst pool integration"
+authors = ["OINIO <onenoly1010@github.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/onenoly1010/pi-mr-nft-agent"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+langgraph = "^0.1.0"
+langchain = "^0.1.0"
+web3 = "^6.11.0"
+fastapi = "^0.104.1"
+uvicorn = "^0.24.0"
+python-dotenv = "^1.0.0"
+pydantic = "^2.5.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.3"
+pytest-asyncio = "^0.21.1"
+pytest-cov = "^4.1.0"
+pytest-xdist = "^3.5.0"
+black = "^23.11.0"
+ruff = "^0.1.7"
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+[tool.ruff]
+line-length = 100
+select = ["E", "F", "I"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
