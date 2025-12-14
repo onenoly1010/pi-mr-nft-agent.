@@ -219,9 +219,11 @@ class HandoffCoordinator:
 if __name__ == "__main__":
     # Official OINIO handoff coordinator (December 2025)
     # Permanent identity lock for sovereign succession
+    # NOTE: Update evm_address with actual Pi Mainnet address from CREATOR_ADDRESS env var
+    # before production deployment (format: 0x followed by 40 hexadecimal characters)
     initial_maintainer = MaintainerState(
         github_handle="onenoly1010",  # OINIO GitHub
-        evm_address="0xOINIO",  # Placeholder - update with actual Pi Mainnet address
+        evm_address="0xOINIO",  # TODO: Replace with actual Pi Mainnet address
         reputation_score=100.0,  # Handoff complete
         inferences_processed=0,  # Starting from deployment
         days_since_deployment=0,  # December 2025 handoff

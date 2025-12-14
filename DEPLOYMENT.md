@@ -31,7 +31,9 @@ cp .env.example .env
 # Edit .env with your values:
 # - PI_NODE_RPC: Your Pi Mainnet RPC endpoint
 # - PRIVATE_KEY: Your deployment wallet private key
-# - CREATOR_ADDRESS: 0xOINIO (or your address for testing)
+# - CREATOR_ADDRESS: Your actual Pi Mainnet EVM address (0x followed by 40 hex chars)
+#   Example: 0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb6
+#   For OINIO: Use the actual Pi Mainnet address controlled by OINIO identity
 ```
 
 ### 2. Deploy Smart Contracts

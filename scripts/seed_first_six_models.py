@@ -94,8 +94,22 @@ async def seed_models():
 
     # Initialize agents
     rpc_url = os.getenv("PI_NODE_RPC", "https://api.node.pi.network")
-    creator_address = os.getenv("CREATOR_ADDRESS", "0xOINIO")
+    creator_address = os.getenv("CREATOR_ADDRESS")
     private_key = os.getenv("PRIVATE_KEY")
+    
+    # Validate configuration
+    if not creator_address:
+        print("❌ Error: CREATOR_ADDRESS not set in .env file")
+        print("   Please set your Pi Mainnet EVM address (0x...)")
+        return
+    
+    if not private_key:
+        print("❌ Error: PRIVATE_KEY not set in .env file")
+        print("   Please set your deployment wallet private key")
+        return
+    
+    print(f"Creator Address: {creator_address}")
+    print(f"RPC Endpoint: {rpc_url}")
 
     enforcer = RoyaltyEnforcer(creator_address, rpc_url, private_key)
     catalyst_watcher = CatalystPoolWatcher(
