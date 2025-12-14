@@ -2,13 +2,19 @@
 """
 Seed first six models into the MR-NFT ecosystem.
 
+OINIO Succession Handoff — December 2025
+Deployed by: onenoly1010 (OINIO)
+Identity: X (@Onenoly11), Telegram (onenoly11), Discord (Onenoly11), GitHub (onenoly1010)
+
 These are canonical models that demonstrate the sovereign agent's capability:
-1. Mistral-7B (general-purpose)
-2. Llama-2-70B (large language understanding)
-3. Yi-34B (multilingual)
-4. Phi-2 (efficient inference)
-5. Orca-2-7B (instruction-following)
-6. Neural-Chat-7B (conversational)
+1. Mistral-7B (general-purpose, 10% royalty)
+2. Llama-2-70B (large language understanding, 20% royalty)
+3. Yi-34B (multilingual, 20% royalty)
+4. Phi-2 (efficient inference, 10% royalty)
+5. Orca-2-7B (instruction-following, 10% royalty)
+6. Neural-Chat-7B (conversational, 10% royalty)
+
+Run with: python scripts/seed_first_six_models.py
 """
 
 import os
@@ -82,6 +88,8 @@ async def seed_models():
     print("🌱 Pi MR-NFT Seed Models Deployment")
     print("=" * 60)
     print(f"Timestamp: {datetime.now().isoformat()}")
+    print(f"Maintainer: OINIO (onenoly1010)")
+    print(f"Handoff Date: December 2025")
     print()
 
     # Initialize agents
@@ -159,6 +167,12 @@ async def seed_models():
     print(f"\n📄 Deployment record saved: {output_file}")
     print("\n🚀 Catalyst flywheel is now active!")
     print("   Developers can now fork this repo and start earning royalties.")
+    print("\n📋 Next Steps:")
+    print("   1. Post deployment transaction hashes in GitHub issues")
+    print("   2. Announce deployment on X (@Onenoly11)")
+    print("   3. Monitor first inferences via catalyst_watcher.py")
+    print("\n✅ OINIO succession handoff complete - Let the sovereign AI economy begin!")
+    print("   #PiForge #MRNFT #SovereignAI")
 
 
 if __name__ == "__main__":
