@@ -9,12 +9,13 @@ Enforces 10-30% inference royalty routing on Pi Mainnet:
 """
 
 import logging
-from typing import Dict, Tuple, Optional
-from decimal import Decimal
 from dataclasses import dataclass
+from decimal import Decimal
 from enum import Enum
-from web3 import Web3
+from typing import Dict, Optional, Tuple
+
 from eth_account import Account
+from web3 import Web3
 
 logger = logging.getLogger(__name__)
 
@@ -144,8 +145,9 @@ class RoyaltyEnforcer:
 
 if __name__ == "__main__":
     import os
-    from dotenv import load_dotenv
     from datetime import datetime
+
+    from dotenv import load_dotenv
 
     load_dotenv()
     rpc = os.getenv("PI_NODE_RPC", "https://api.node.pi.network")

@@ -7,11 +7,12 @@ Monitors real-time multiplier state on Pi Mainnet:
 - Total capacity: 1,000,000 inference events
 """
 
-import logging
-from typing import Dict, Optional
-from web3 import Web3
-from datetime import datetime
 import asyncio
+import logging
+from datetime import datetime
+from typing import Dict
+
+from web3 import Web3
 
 logger = logging.getLogger(__name__)
 
@@ -67,6 +68,7 @@ class CatalystPoolWatcher:
         while True:
             try:
                 multiplier = await self.get_current_multiplier()
+                logger.info(f"Current multiplier: {multiplier}x")
                 self.last_update = datetime.now()
                 await asyncio.sleep(interval)
             except Exception as e:
@@ -87,6 +89,7 @@ class CatalystPoolWatcher:
 if __name__ == "__main__":
     # Demo usage
     import os
+
     from dotenv import load_dotenv
 
     load_dotenv()

@@ -9,10 +9,10 @@ Sovereign succession state machine using LangGraph:
 """
 
 import logging
-from typing import Dict, List, Optional, Literal
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
+from typing import Dict, List
 
 logger = logging.getLogger(__name__)
 
