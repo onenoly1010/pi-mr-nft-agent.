@@ -67,8 +67,7 @@ class CatalystPoolWatcher:
         
         while True:
             try:
-                multiplier = await self.get_current_multiplier()
-                logger.info(f"Current multiplier: {multiplier}x")
+                await self.get_current_multiplier()
                 self.last_update = datetime.now()
                 await asyncio.sleep(interval)
             except Exception as e:
