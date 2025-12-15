@@ -28,7 +28,7 @@ pytest-cov==4.1.0
 pytest-xdist==3.5.0
 
 # Contract interaction
-solcx==1.2.1
+py-solc-x==1.1.1
 brownie==1.20.7
 
 # Logging + monitoring
