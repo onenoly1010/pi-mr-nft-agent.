@@ -7,7 +7,7 @@ python-dotenv==1.0.0
 # Web3 + Blockchain
 web3==6.11.0
 setuptools>=65.0.0  # Required by web3 6.11.0 for pkg_resources
-eth-typing>=3.0.0,<4.0.0  # Pin to 3.x for compatibility with web3 6.11.0 pytest plugin
+eth-typing>=3.0.0,<4.0.0  # Pin to 3.x for compatibility with web3 6.11.0's internal dependencies
 # Note: eth-keys and eth-account versions are resolved automatically by web3
 
 # HTTP + API
