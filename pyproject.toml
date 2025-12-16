@@ -34,5 +34,37 @@ line-length = 100
 select = ["E", "F", "I"]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pi-mr-nft-agent"
+version = "1.0.0"
+description = "Sovereign Pi MR-NFT inference agent with catalyst pool integration"
+authors = [{name = "OINIO", email = "onenoly1010@github.com"}]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "python-dotenv>=1.0.0",
+    "web3>=6.20.0",
+    "fastapi==0.104.1",
+    "uvicorn==0.24.0",
+    "pydantic>=2.5.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.3",
+    "pytest-asyncio>=0.21.1",
+    "pytest-cov>=4.1.0",
+    "pytest-xdist>=3.5.0",
+    "black>=23.11.0",
+    "ruff>=0.1.7",
+]
+
+[project.urls]
+Repository = "https://github.com/onenoly1010/pi-mr-nft-agent"
+
+[tool.setuptools.packages.find]
+include = ["agents*", "contracts*", "app*", "scripts*"]
