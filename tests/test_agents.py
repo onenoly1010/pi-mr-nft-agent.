@@ -4,16 +4,16 @@ Test suite for Pi MR-NFT agents and contracts
 Run with: pytest -n auto
 """
 
-import pytest
-import asyncio
+from datetime import datetime
 from decimal import Decimal
-from datetime import datetime, timedelta
+
+import pytest
 
 # Import agents
 from agents.catalyst_watcher import CatalystPoolWatcher
-from agents.royalty_enforcer import RoyaltyEnforcer, RoyaltyTier, InferenceData
-from agents.model_scoring_oracle import ModelScoringOracle
 from agents.handoff_coordinator import HandoffCoordinator, MaintainerState
+from agents.model_scoring_oracle import ModelScoringOracle
+from agents.royalty_enforcer import InferenceData, RoyaltyEnforcer, RoyaltyTier
 
 
 class TestCatalystWatcher:
