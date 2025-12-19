@@ -1,4 +1,14 @@
 # Core dependencies
+langgraph>=0.2.0
+langchain>=0.1.0
+langchain-community>=0.0.10
+python-dotenv==1.0.0
+
+# Web3 + Blockchain
+web3==6.11.0
+setuptools>=65.0.0  # Required by web3 6.11.0 for pkg_resources
+eth-typing>=3.0.0,<4.0.0  # Pin to 3.x for compatibility with web3 6.11.0's internal dependencies
+# Note: eth-keys and eth-account versions are resolved automatically by web3
 python-dotenv==1.0.0
 
 # Web3 + Blockchain
@@ -21,4 +31,6 @@ pytest-asyncio==0.21.1
 pytest-cov==4.1.0
 pytest-xdist==3.5.0
 
+# Contract interaction
+# Note: Using web3.py directly for contract interactions
 
