@@ -39,6 +39,7 @@ cp .env.example .env
 #   You MUST replace it with your real 42-character address (0x + 40 hex digits) or deployment will fail.
 ```
 
+> **Note:** Ensure that your `.env.example` file uses a properly formatted placeholder for `CREATOR_ADDRESS`, such as `0x0000000000000000000000000000000000000000`, instead of an invalid value like `0xOINIO`.
 ### 2. Deploy Smart Contracts
 
 ```bash
