@@ -8,7 +8,7 @@ Identity: X (@Onenoly11), Telegram (onenoly11), Discord (Onenoly11), GitHub (one
 
 These are canonical models that demonstrate the sovereign agent's capability:
 1. Mistral-7B (general-purpose, 10% royalty)
-2. Llama-2-70B (large language understanding, 20% royalty)
+2. Llama-2-70B (large language model for complex reasoning, 20% royalty)
 3. Yi-34B (multilingual, 20% royalty)
 4. Phi-2 (efficient inference, 10% royalty)
 5. Orca-2-7B (instruction-following, 10% royalty)
