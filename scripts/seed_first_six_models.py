@@ -108,7 +108,8 @@ async def seed_models():
         print("   Please set your deployment wallet private key")
         return
     
-    print(f"Creator Address: {creator_address}")
+    # WARNING: Creator address is sensitive. Do not share or log this information until deployment is complete and verified on-chain.
+    # print(f"Creator Address: {creator_address}")
     print(f"RPC Endpoint: {rpc_url}")
 
     enforcer = RoyaltyEnforcer(creator_address, rpc_url, private_key)
