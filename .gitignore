@@ -37,6 +37,7 @@ share/python-wheels/
 .pytest_cache/
 .coverage
 .coverage.*
+coverage.xml
 htmlcov/
 .tox/
 .hypothesis/

@@ -25,8 +25,8 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
+          pip install -e .
           pip install -r requirements.txt
-          pip install pytest pytest-cov pytest-xdist
 
       - name: Lint with ruff
         run: |
@@ -78,7 +78,7 @@ jobs:
           PI_NODE_RPC: ${{ secrets.PI_NODE_RPC }}
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
         run: |
-          python scripts/deploy_pi_evm.sh --dry-run
+          bash scripts/deploy_pi_evm.sh --dry-run
 
       - name: Alert on success
         if: success()

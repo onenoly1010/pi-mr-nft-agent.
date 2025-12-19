@@ -17,20 +17,23 @@ These are canonical models that demonstrate the sovereign agent's capability:
 Run with: python scripts/seed_first_six_models.py
 """
 
-import os
-import json
 import asyncio
-from pathlib import Path
-from datetime import datetime
-from dotenv import load_dotenv
+import json
+import os
 
 # Import agents
 import sys
+from datetime import datetime
+from pathlib import Path
+
+from dotenv import load_dotenv
+
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from agents.royalty_enforcer import RoyaltyEnforcer, RoyaltyTier, InferenceData
-from agents.catalyst_watcher import CatalystPoolWatcher
 from decimal import Decimal
+
+from agents.catalyst_watcher import CatalystPoolWatcher
+from agents.royalty_enforcer import InferenceData, RoyaltyEnforcer, RoyaltyTier
 
 load_dotenv()
 

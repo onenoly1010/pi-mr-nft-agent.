@@ -8,10 +8,10 @@ Provides REST endpoints for:
 - Handoff status
 """
 
-from fastapi import FastAPI
-from fastapi.responses import JSONResponse
 import os
+
 from dotenv import load_dotenv
+from fastapi import FastAPI
 
 load_dotenv()
 
