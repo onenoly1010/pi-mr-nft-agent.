@@ -6,9 +6,9 @@ python-dotenv==1.0.0
 
 # Web3 + Blockchain
 web3==6.11.0
-eth-typing==4.0.0
-eth-keys==0.4.0
-eth-account==0.9.0
+setuptools>=65.0.0  # Required by web3 6.11.0 for pkg_resources
+eth-typing>=3.0.0,<4.0.0  # Pin to 3.x for compatibility with web3 6.11.0's internal dependencies
+# Note: eth-keys and eth-account versions are resolved automatically by web3
 
 # HTTP + API
 fastapi==0.104.1
@@ -28,8 +28,7 @@ pytest-cov==4.1.0
 pytest-xdist==3.5.0
 
 # Contract interaction
-solcx==1.2.1
-brownie==1.20.7
+# Note: Using web3.py directly for contract interactions
 
 # Logging + monitoring
 python-json-logger==2.0.7
