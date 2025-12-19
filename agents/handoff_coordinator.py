@@ -183,10 +183,16 @@ class HandoffCoordinator:
         approvals = sum(1 for v in proposal.votes_received.values() if v)
         
         if approvals >= self.vote_threshold:
-            logger.info(f"Proposal {proposal_id} APPROVED by multisig ({approvals}/{self.vote_threshold})")
+            logger.info(
+                f"Proposal {proposal_id} APPROVED by multisig "
+                f"({approvals}/{self.vote_threshold})"
+            )
             self._execute_handoff(proposal)
         elif len(proposal.votes_received) == len(self.multisig_signers):
-            logger.error(f"Proposal {proposal_id} REJECTED by multisig ({approvals}/{self.vote_threshold})")
+            logger.error(
+                f"Proposal {proposal_id} REJECTED by multisig "
+                f"({approvals}/{self.vote_threshold})"
+            )
 
     def _execute_handoff(self, proposal: HandoffProposal) -> None:
         """Execute successful handoff to successor."""
@@ -248,12 +254,12 @@ if __name__ == "__main__":
     print(f"EVM Address: {coordinator.current_maintainer.evm_address}")
     print(f"Reputation: {coordinator.current_maintainer.reputation_score}/100")
     print(f"Phase: {coordinator.current_maintainer.phase.value}")
-    print(f"\nIdentity Lock:")
-    print(f"  X: @Onenoly11")
-    print(f"  Telegram: onenoly11")
-    print(f"  Discord: Onenoly11")
-    print(f"  GitHub: onenoly1010")
-    print(f"  Pi Display: OINIO")
-    print(f"\n✅ All economic rights routed to OINIO-controlled addresses")
-    print(f"📋 Next: Deploy seed models with scripts/seed_first_six_models.py")
+    print("\nIdentity Lock:")
+    print("  X: @Onenoly11")
+    print("  Telegram: onenoly11")
+    print("  Discord: Onenoly11")
+    print("  GitHub: onenoly1010")
+    print("  Pi Display: OINIO")
+    print("\n✅ All economic rights routed to OINIO-controlled addresses")
+    print("📋 Next: Deploy seed models with scripts/seed_first_six_models.py")
     print("=" * 60)
