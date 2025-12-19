@@ -91,8 +91,8 @@ async def seed_models():
     print("🌱 Pi MR-NFT Seed Models Deployment")
     print("=" * 60)
     print(f"Timestamp: {datetime.now().isoformat()}")
-    print(f"Maintainer: OINIO (onenoly1010)")
-    print(f"Handoff Date: December 2025")
+    print("Maintainer: OINIO (onenoly1010)")
+    print("Handoff Date: December 2025")
     print()
 
     # Initialize agents
@@ -111,7 +111,8 @@ async def seed_models():
         print("   Please set your deployment wallet private key")
         return
     
-    # WARNING: Creator address is sensitive. Do not share or log this information until deployment is complete and verified on-chain.
+    # WARNING: Creator address is sensitive. Do not share or log this
+    # information until deployment is complete and verified on-chain.
     # print(f"Creator Address: {creator_address}")
     print(f"RPC Endpoint: {rpc_url}")
 
