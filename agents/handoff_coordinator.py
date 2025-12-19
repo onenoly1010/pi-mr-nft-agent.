@@ -232,7 +232,13 @@ if __name__ == "__main__":
     # Multisig signers for community governance (3-of-5 required)
     coordinator = HandoffCoordinator(
         initial_maintainer,
-        ["0xSigner1", "0xSigner2", "0xSigner3", "0xSigner4", "0xSigner5"]
+        [
+            "0x1111111111111111111111111111111111111111",
+            "0x2222222222222222222222222222222222222222",
+            "0x3333333333333333333333333333333333333333",
+            "0x4444444444444444444444444444444444444444",
+            "0x5555555555555555555555555555555555555555"
+        ]
     )
     
     print("=" * 60)
