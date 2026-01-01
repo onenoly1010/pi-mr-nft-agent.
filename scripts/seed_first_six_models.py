@@ -91,8 +91,8 @@ async def seed_models():
     print("🌱 Pi MR-NFT Seed Models Deployment")
     print("=" * 60)
     print(f"Timestamp: {datetime.now().isoformat()}")
-    print(f"Maintainer: OINIO (onenoly1010)")
-    print(f"Handoff Date: December 2025")
+    print("Maintainer: OINIO (onenoly1010)")
+    print("Handoff Date: December 2025")
     print()
 
     # Initialize agents
