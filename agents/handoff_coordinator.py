@@ -183,10 +183,16 @@ class HandoffCoordinator:
         approvals = sum(1 for v in proposal.votes_received.values() if v)
         
         if approvals >= self.vote_threshold:
-            logger.info(f"Proposal {proposal_id} APPROVED by multisig ({approvals}/{self.vote_threshold})")
+            logger.info(
+                f"Proposal {proposal_id} APPROVED by multisig "
+                f"({approvals}/{self.vote_threshold})"
+            )
             self._execute_handoff(proposal)
         elif len(proposal.votes_received) == len(self.multisig_signers):
-            logger.error(f"Proposal {proposal_id} REJECTED by multisig ({approvals}/{self.vote_threshold})")
+            logger.error(
+                f"Proposal {proposal_id} REJECTED by multisig "
+                f"({approvals}/{self.vote_threshold})"
+            )
 
     def _execute_handoff(self, proposal: HandoffProposal) -> None:
         """Execute successful handoff to successor."""

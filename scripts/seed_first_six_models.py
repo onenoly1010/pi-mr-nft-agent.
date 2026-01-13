@@ -111,7 +111,8 @@ async def seed_models():
         print("   Please set your deployment wallet private key")
         return
     
-    # WARNING: Creator address is sensitive. Do not share or log this information until deployment is complete and verified on-chain.
+    # WARNING: Creator address is sensitive. Do not share or log this
+    # information until deployment is complete and verified on-chain.
     # print(f"Creator Address: {creator_address}")
     print(f"RPC Endpoint: {rpc_url}")
 
