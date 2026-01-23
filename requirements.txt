@@ -5,10 +5,7 @@ langchain-community==0.0.10
 python-dotenv==1.0.0
 
 # Web3 + Blockchain
-web3==6.11.0
-eth-typing==4.0.0
-eth-keys==0.4.0
-eth-account==0.9.0
+web3>=6.20.0
 
 # HTTP + API
 fastapi==0.104.1
@@ -27,15 +24,4 @@ pytest-asyncio==0.21.1
 pytest-cov==4.1.0
 pytest-xdist==3.5.0
 
-# Contract interaction
-py-solc-x==1.1.1
-brownie==1.20.7
 
-# Logging + monitoring
-python-json-logger==2.0.7
-
-# Optional: Gradio UI
-gradio==4.0.0
-
-# Optional: Database
-sqlalchemy==2.0.23
