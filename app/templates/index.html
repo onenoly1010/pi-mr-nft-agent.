@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Pi MR-NFT Agent Dashboard{% endblock %}
+
+{% block content %}
+<h1>🚀 Pi MR-NFT Sovereign Inference Agent</h1>
+
+<div class="status-card">
+    <p><span class="status-label">Service:</span> {{ service_name }}</p>
+    <p><span class="status-label">Version:</span> {{ version }}</p>
+    <p><span class="status-label">Status:</span> <span class="badge">{{ status }}</span></p>
+</div>
+
+<h2>📊 Catalyst Pool Status</h2>
+<div class="status-card">
+    <p><span class="status-label">Pool Capacity:</span> {{ catalyst.pool_capacity | default('N/A') }} PI</p>
+    <p><span class="status-label">Current Multiplier:</span> {{ catalyst.current_multiplier | default('N/A') }}x</p>
+    <p><span class="status-label">Inferences Processed:</span> {{ catalyst.inferences_processed | default(0) }}</p>
+    <p><span class="status-label">Remaining Capacity:</span> {{ catalyst.remaining_capacity | default('N/A') }} PI</p>
+</div>
+
+<h2>👤 Maintainer Status</h2>
+<div class="status-card">
+    <p><span class="status-label">GitHub Handle:</span> <a href="https://github.com/{{ maintainer.github_handle }}" target="_blank">@{{ maintainer.github_handle }}</a></p>
+    <p><span class="status-label">Reputation Score:</span> {{ maintainer.reputation_score | default('N/A') }}%</p>
+    <p><span class="status-label">Phase:</span> <span class="badge">{{ maintainer.phase | default('N/A') }}</span></p>
+</div>
+
+<h2>🔗 Quick Links</h2>
+<ul>
+    <li><a href="/health">Health Check</a></li>
+    <li><a href="/catalyst/status">Catalyst Pool API</a></li>
+    <li><a href="/models">Models API</a></li>
+    <li><a href="/maintainer/status">Maintainer API</a></li>
+    <li><a href="/docs">API Documentation</a></li>
+</ul>
+
+<h2>📚 Resources</h2>
+<ul>
+    <li><a href="https://github.com/onenoly1010/pi-mr-nft-agent" target="_blank">GitHub Repository</a></li>
+    <li><a href="https://github.com/onenoly1010/pi-mr-nft-agent/blob/main/README.md" target="_blank">README</a></li>
+    <li><a href="https://github.com/onenoly1010/pi-mr-nft-agent/blob/main/HANDOFF.md" target="_blank">Handoff Protocol</a></li>
+    <li><a href="https://github.com/onenoly1010/pi-mr-nft-agent/blob/main/DEPLOYMENT.md" target="_blank">Deployment Guide</a></li>
+</ul>
+{% endblock %}
