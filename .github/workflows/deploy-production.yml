@@ -19,6 +19,8 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
 
@@ -45,6 +47,8 @@ jobs:
   build-docker:
     needs: validate
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
 
@@ -71,6 +75,8 @@ jobs:
     needs: validate
     runs-on: ubuntu-latest
     if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/'))
+    permissions:
+      contents: read
     environment: 
       name: ${{ github.event.inputs.environment || 'production' }}
     
@@ -138,6 +144,7 @@ jobs:
     needs: [validate, build-docker]
     runs-on: ubuntu-latest
     if: always()
+    permissions: {}
     steps:
       - name: Check deployment status
         run: |
