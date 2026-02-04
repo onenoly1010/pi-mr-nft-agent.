@@ -9,11 +9,21 @@ Provides REST endpoints for:
 """
 
 import os
+import sys
+import logging
 
 from dotenv import load_dotenv
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
+from web3 import Web3
 
 load_dotenv()
+
+# Configure logging
+logging.basicConfig(
+    level=os.getenv("LOG_LEVEL", "INFO"),
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
+logger = logging.getLogger(__name__)
 
 app = FastAPI(
     title="Pi MR-NFT Agent",
@@ -22,14 +32,98 @@ app = FastAPI(
 )
 
 
+def validate_ethereum_address(address: str) -> bool:
+    """Validate Ethereum address format."""
+    if not address or address == "0x...":
+        return False
+    try:
+        return Web3.is_address(address) and address.startswith("0x") and len(address) == 42
+    except Exception:
+        return False
+
+
+def validate_environment():
+    """Validate required environment variables on startup."""
+    required_vars = {
+        "PI_NODE_RPC": "Pi Network RPC endpoint",
+        "CREATOR_ADDRESS": "Creator/maintainer wallet address"
+    }
+    
+    missing_vars = []
+    invalid_vars = []
+    
+    for var, description in required_vars.items():
+        value = os.getenv(var)
+        if not value or value == "0x...":
+            missing_vars.append(f"{var} ({description})")
+        elif var == "CREATOR_ADDRESS" and not validate_ethereum_address(value):
+            invalid_vars.append(f"{var} must be a valid Ethereum address (0x + 40 hex chars)")
+    
+    if missing_vars:
+        logger.error(f"Missing required environment variables: {', '.join(missing_vars)}")
+        logger.error("Please copy .env.example to .env and configure your values")
+        return False
+    
+    if invalid_vars:
+        logger.error(f"Invalid environment variables: {', '.join(invalid_vars)}")
+        return False
+    
+    # Log successful validation (without exposing sensitive data)
+    logger.info("✓ Environment validation passed")
+    rpc_url = os.getenv('PI_NODE_RPC', '')
+    logger.info(f"✓ RPC endpoint configured: {rpc_url[:30] if len(rpc_url) > 30 else rpc_url}...")
+    creator = os.getenv('CREATOR_ADDRESS', '')
+    logger.info(f"✓ Creator address configured: {creator[:6]}...{creator[-4:] if len(creator) >= 10 else ''}")
+    
+    return True
+
+
+@app.on_event("startup")
+async def startup_event():
+    """Validate configuration on startup."""
+    logger.info("Starting Pi MR-NFT Agent...")
+    
+    if not validate_environment():
+        logger.error("⚠️  WARNING: Running with incomplete configuration!")
+        logger.error("⚠️  The application may not function correctly.")
+        logger.error("⚠️  Please configure .env file with valid values.")
+        # In production, you might want to sys.exit(1) here
+        # For now, we'll allow it to run for demo purposes
+    else:
+        logger.info("✅ Pi MR-NFT Agent started successfully")
+        logger.info("🚀 FastAPI server ready for requests")
+
+
 @app.get("/health")
 async def health_check():
-    """Health check endpoint."""
-    return {
-        "status": "ok",
+    """
+    Health check endpoint with environment validation.
+    
+    Returns:
+        - status: "ok" if all checks pass
+        - status: "degraded" if running with incomplete config
+        - service metadata
+    """
+    env_valid = validate_environment()
+    
+    response = {
+        "status": "ok" if env_valid else "degraded",
         "service": "pi-mr-nft-agent",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "environment": {
+            "rpc_configured": bool(os.getenv("PI_NODE_RPC")),
+            "creator_configured": validate_ethereum_address(os.getenv("CREATOR_ADDRESS", "")),
+            "catalyst_pool_configured": bool(os.getenv("CATALYST_POOL_ADDRESS")),
+            "mr_nft_configured": bool(os.getenv("MR_NFT_ADDRESS"))
+        }
     }
+    
+    if not env_valid:
+        response["warnings"] = [
+            "Running with incomplete configuration. Please configure .env file."
+        ]
+    
+    return response
 
 
 @app.get("/catalyst/status")
