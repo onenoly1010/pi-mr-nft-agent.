@@ -34,7 +34,7 @@ app = FastAPI(
 
 def validate_ethereum_address(address: str) -> bool:
     """Validate Ethereum address format."""
-    if not address or address == "0x..." or address == "0xYourPiMainnetAddressHere...":
+    if not address or address == "0x...":
         return False
     try:
         return Web3.is_address(address) and address.startswith("0x") and len(address) == 42
@@ -70,9 +70,10 @@ def validate_environment():
     
     # Log successful validation (without exposing sensitive data)
     logger.info("✓ Environment validation passed")
-    logger.info(f"✓ RPC endpoint configured: {os.getenv('PI_NODE_RPC')[:30]}...")
-    creator = os.getenv('CREATOR_ADDRESS')
-    logger.info(f"✓ Creator address configured: {creator[:6]}...{creator[-4:]}")
+    rpc_url = os.getenv('PI_NODE_RPC', '')
+    logger.info(f"✓ RPC endpoint configured: {rpc_url[:30] if len(rpc_url) > 30 else rpc_url}...")
+    creator = os.getenv('CREATOR_ADDRESS', '')
+    logger.info(f"✓ Creator address configured: {creator[:6]}...{creator[-4:] if len(creator) >= 10 else ''}")
     
     return True
 

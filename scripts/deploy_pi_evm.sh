@@ -85,6 +85,7 @@ else
     echo -e "${YELLOW}⚠️  Forge not available. Please install Foundry to deploy contracts${NC}"
     echo -e "${YELLOW}Or deploy manually using:${NC}"
     echo "  forge create --rpc-url \$PI_NODE_RPC --private-key \$PRIVATE_KEY contracts/ModelRoyaltyNFT.sol:ModelRoyaltyNFT"
+    echo "  forge create --rpc-url \$PI_NODE_RPC --private-key \$PRIVATE_KEY contracts/CatalystPool.sol:CatalystPool"
 fi
 
 # Deploy CatalystPool

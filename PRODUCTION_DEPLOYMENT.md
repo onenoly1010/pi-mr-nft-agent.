@@ -241,7 +241,7 @@ If deployment fails:
 
 For issues or questions:
 - GitHub Issues: [github.com/onenoly1010/pi-mr-nft-agent/issues](https://github.com/onenoly1010/pi-mr-nft-agent/issues)
-- Documentation: See `DEPLOYMENT.md` for detailed deployment guide
+- See also: Main deployment documentation in repository root
 
 ---
 
