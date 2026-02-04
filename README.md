@@ -30,6 +30,15 @@ python agents/royalty_enforcer.py --demo
 ## Handoff Protocol
 See [HANDOFF.md](./HANDOFF.md) for the exact checklist the next maintainer must complete before the agent will route royalties to their address.
 
+## Production Deployment
+See [PRODUCTION_DEPLOYMENT.md](./PRODUCTION_DEPLOYMENT.md) for step-by-step guides on deploying to Railway, Render, Heroku, or Docker.
+
+Quick deploy options:
+- **Railway.app**: Zero-config deployment with `railway.json`
+- **Render.com**: Free tier with `render.yaml` auto-detection
+- **Heroku**: One-click deploy with `Procfile`
+- **Docker**: Self-hosted with `docker-compose.yml`
+
 ### Current Handoff Status ✅
 - **Maintainer:** @onenoly1010 (OINIO)
 - **Status:** ✅ **HANDOFF COMPLETE** — Fully autonomous (December 2025)

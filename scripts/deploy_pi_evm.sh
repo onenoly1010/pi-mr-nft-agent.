@@ -54,12 +54,71 @@ forge build
 
 # Deploy
 echo -e "${YELLOW}🚀 Deploying to Pi Mainnet...${NC}"
+echo ""
 
-# Note: This is a placeholder - actual deployment would use forge/hardhat/etc
-echo -e "${GREEN}✓ Deployment configuration ready${NC}"
+# Check if we should skip actual deployment (useful for CI/CD)
+if [ "$1" = "--skip-deploy" ]; then
+    echo -e "${GREEN}✓ Skipping actual deployment (--skip-deploy flag set)${NC}"
+    echo ""
+    echo "To deploy manually, run:"
+    echo "  forge create --rpc-url \$PI_NODE_RPC --private-key \$PRIVATE_KEY contracts/ModelRoyaltyNFT.sol:ModelRoyaltyNFT"
+    echo "  forge create --rpc-url \$PI_NODE_RPC --private-key \$PRIVATE_KEY contracts/CatalystPool.sol:CatalystPool"
+    echo ""
+    echo -e "${YELLOW}Store the deployment addresses in .env for production use${NC}"
+    exit 0
+fi
+
+# Deploy ModelRoyaltyNFT
+echo -e "${YELLOW}📝 Deploying ModelRoyaltyNFT contract...${NC}"
+if command -v forge &> /dev/null; then
+    MR_NFT_OUTPUT=$(forge create --rpc-url "$PI_NODE_RPC" --private-key "$PRIVATE_KEY" contracts/ModelRoyaltyNFT.sol:ModelRoyaltyNFT 2>&1)
+    MR_NFT_RESULT=$?
+    
+    if [ $MR_NFT_RESULT -eq 0 ]; then
+        MR_NFT_ADDRESS=$(echo "$MR_NFT_OUTPUT" | grep "Deployed to:" | awk '{print $3}')
+        echo -e "${GREEN}✓ ModelRoyaltyNFT deployed: $MR_NFT_ADDRESS${NC}"
+    else
+        echo -e "${YELLOW}⚠️  Warning: Contract deployment command failed or forge not available${NC}"
+        echo -e "${YELLOW}Please deploy contracts manually using the commands above${NC}"
+    fi
+else
+    echo -e "${YELLOW}⚠️  Forge not available. Please install Foundry to deploy contracts${NC}"
+    echo -e "${YELLOW}Or deploy manually using:${NC}"
+    echo "  forge create --rpc-url \$PI_NODE_RPC --private-key \$PRIVATE_KEY contracts/ModelRoyaltyNFT.sol:ModelRoyaltyNFT"
+fi
+
+# Deploy CatalystPool
+echo -e "${YELLOW}📝 Deploying CatalystPool contract...${NC}"
+if command -v forge &> /dev/null; then
+    CATALYST_OUTPUT=$(forge create --rpc-url "$PI_NODE_RPC" --private-key "$PRIVATE_KEY" contracts/CatalystPool.sol:CatalystPool 2>&1)
+    CATALYST_RESULT=$?
+    
+    if [ $CATALYST_RESULT -eq 0 ]; then
+        CATALYST_ADDRESS=$(echo "$CATALYST_OUTPUT" | grep "Deployed to:" | awk '{print $3}')
+        echo -e "${GREEN}✓ CatalystPool deployed: $CATALYST_ADDRESS${NC}"
+    else
+        echo -e "${YELLOW}⚠️  Warning: Contract deployment command failed or forge not available${NC}"
+        echo -e "${YELLOW}Please deploy contracts manually using the commands above${NC}"
+    fi
+else
+    echo -e "${YELLOW}⚠️  Forge not available. Please install Foundry to deploy contracts${NC}"
+    echo -e "${YELLOW}Or deploy manually using:${NC}"
+    echo "  forge create --rpc-url \$PI_NODE_RPC --private-key \$PRIVATE_KEY contracts/CatalystPool.sol:CatalystPool"
+fi
+
 echo ""
-echo "To deploy, run:"
-echo "  forge create --rpc-url $PI_NODE_RPC --private-key $PRIVATE_KEY contracts/ModelRoyaltyNFT.sol:ModelRoyaltyNFT"
-echo "  forge create --rpc-url $PI_NODE_RPC --private-key $PRIVATE_KEY contracts/CatalystPool.sol:CatalystPool"
+echo -e "${GREEN}✓ Deployment process complete${NC}"
 echo ""
-echo -e "${YELLOW}Store the deployment addresses in .env for production use${NC}"
+if [ -n "$MR_NFT_ADDRESS" ] && [ -n "$CATALYST_ADDRESS" ]; then
+    echo -e "${YELLOW}📋 Add these addresses to your .env file:${NC}"
+    echo "MR_NFT_ADDRESS=$MR_NFT_ADDRESS"
+    echo "CATALYST_POOL_ADDRESS=$CATALYST_ADDRESS"
+else
+    echo -e "${YELLOW}⚠️  Note: Some contracts may not have been deployed${NC}"
+    echo -e "${YELLOW}Please check the output above and deploy manually if needed${NC}"
+fi
+echo ""
+echo -e "${YELLOW}Next steps:${NC}"
+echo "1. Update .env with deployed contract addresses"
+echo "2. Run: python scripts/seed_first_six_models.py"
+echo "3. Verify contracts on Pi Network Explorer"
