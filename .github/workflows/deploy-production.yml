@@ -1,0 +1,157 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main]
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - staging
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run tests
+        run: |
+          pytest -n auto --cov=agents --cov=app --cov-report=term-missing
+
+      - name: Lint code
+        run: |
+          pip install ruff
+          ruff check . --extend-ignore=E501
+
+  build-docker:
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          tags: pi-mr-nft-agent:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Test Docker image
+        run: |
+          docker build -t pi-mr-nft-agent:test .
+          docker run --rm -e PI_NODE_RPC="https://api.node.pi.network" \
+            -e CREATOR_ADDRESS="0x0000000000000000000000000000000000000000" \
+            pi-mr-nft-agent:test python -c "import app.main; print('Import successful')"
+
+  deploy-contracts:
+    needs: validate
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/'))
+    permissions:
+      contents: read
+    environment: 
+      name: ${{ github.event.inputs.environment || 'production' }}
+    
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Validate environment variables
+        env:
+          PI_NODE_RPC: ${{ secrets.PI_NODE_RPC }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          CREATOR_ADDRESS: ${{ secrets.CREATOR_ADDRESS }}
+        run: |
+          if [ -z "$PI_NODE_RPC" ]; then
+            echo "Error: PI_NODE_RPC secret not set"
+            exit 1
+          fi
+          if [ -z "$PRIVATE_KEY" ]; then
+            echo "Error: PRIVATE_KEY secret not set"
+            exit 1
+          fi
+          if [ -z "$CREATOR_ADDRESS" ]; then
+            echo "Error: CREATOR_ADDRESS secret not set"
+            exit 1
+          fi
+          echo "✓ All required secrets are configured"
+
+      - name: Run deployment script (dry-run)
+        env:
+          PI_NODE_RPC: ${{ secrets.PI_NODE_RPC }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          CREATOR_ADDRESS: ${{ secrets.CREATOR_ADDRESS }}
+        run: |
+          # Create .env for the script
+          echo "PI_NODE_RPC=$PI_NODE_RPC" > .env
+          echo "PRIVATE_KEY=$PRIVATE_KEY" >> .env
+          echo "CREATOR_ADDRESS=$CREATOR_ADDRESS" >> .env
+          
+          # Run deployment script with skip flag (actual deployment requires forge)
+          bash scripts/deploy_pi_evm.sh --skip-deploy
+
+      - name: Deployment summary
+        run: |
+          echo "## Deployment Status" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Configuration validated" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Tests passed" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Docker image built" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Next Steps" >> $GITHUB_STEP_SUMMARY
+          echo "1. Deploy contracts manually using \`forge\` if not already deployed" >> $GITHUB_STEP_SUMMARY
+          echo "2. Update repository secrets with contract addresses" >> $GITHUB_STEP_SUMMARY
+          echo "3. Deploy FastAPI app to cloud platform (Railway, Render, etc.)" >> $GITHUB_STEP_SUMMARY
+
+  notify:
+    needs: [validate, build-docker]
+    runs-on: ubuntu-latest
+    if: always()
+    permissions: {}
+    steps:
+      - name: Check deployment status
+        run: |
+          if [ "${{ needs.validate.result }}" = "success" ] && [ "${{ needs.build-docker.result }}" = "success" ]; then
+            echo "✅ All deployment checks passed!"
+            echo "Ready for production deployment to cloud platforms"
+          else
+            echo "❌ Deployment checks failed"
+            exit 1
+          fi

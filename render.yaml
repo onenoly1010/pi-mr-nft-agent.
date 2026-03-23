@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: pi-mr-nft-agent
+    runtime: python
+    buildCommand: "pip install --upgrade pip && pip install -r requirements.txt"
+    startCommand: "python app/main.py"
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: LOG_LEVEL
+        value: INFO
+      - key: PI_NODE_RPC
+        sync: false
+      - key: PRIVATE_KEY
+        sync: false
+      - key: CREATOR_ADDRESS
+        sync: false
+      - key: CATALYST_POOL_ADDRESS
+        sync: false
+      - key: MR_NFT_ADDRESS
+        sync: false
+    healthCheckPath: /health
+    autoDeploy: true
