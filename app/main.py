@@ -13,8 +13,9 @@ import sys
 import logging
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException
-from web3 import Web3
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 
 load_dotenv()
 
@@ -30,6 +31,29 @@ app = FastAPI(
     description="Sovereign inference royalty agent",
     version="1.0.0"
 )
+
+# Configure Jinja2 templates
+templates = Jinja2Templates(directory="app/templates")
+
+
+@app.get("/", response_class=HTMLResponse)
+async def root(request: Request):
+    """Root endpoint - displays dashboard with Speed Insights."""
+    # Get data from other endpoints
+    catalyst = await catalyst_status()
+    maintainer = await maintainer_status()
+    
+    return templates.TemplateResponse(
+        "index.html",
+        {
+            "request": request,
+            "service_name": "Pi MR-NFT Agent",
+            "version": "1.0.0",
+            "status": "operational",
+            "catalyst": catalyst,
+            "maintainer": maintainer,
+        }
+    )
 
 
 def validate_ethereum_address(address: str) -> bool:
